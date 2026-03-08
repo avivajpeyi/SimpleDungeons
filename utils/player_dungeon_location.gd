@@ -27,10 +27,14 @@ func _update_display(grid_pos: Vector3) -> void:
 	var room_data = get_player_room_data(grid_pos)
 	
 	if room_data.is_empty():
-		text = "Outside Dungeon Bounds"
+		text = "Outside Dungeon Bounds\ngrid: %s\nlocal: %s\ndungeon_size: %s" % [
+			grid_pos,
+			dungeon_generator.to_local(player.global_position),
+			dungeon_generator.dungeon_size
+		]
 	else:
 		text = "ROOM: %s\nGRID: %s" % [
-			room_data.room.name, 
+			room_data.room.name,
 			room_data.grid_pos
 		]
 
