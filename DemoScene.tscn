@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://26v8vrtj6g87"]
+[gd_scene format=3 uid="uid://26v8vrtj6g87"]
 
-[ext_resource type="Script" path="res://DemoScene.gd" id="1_7ldx6"]
-[ext_resource type="Script" path="res://addons/SimpleDungeons/DungeonGenerator3D.gd" id="1_wd02n"]
-[ext_resource type="Script" path="res://CamOrbitCenter.gd" id="4_huxu7"]
+[ext_resource type="Script" uid="uid://d0gd156a2os7j" path="res://DemoScene.gd" id="1_7ldx6"]
+[ext_resource type="Script" uid="uid://dfvs6fffklc1d" path="res://addons/SimpleDungeons/DungeonGenerator3D.gd" id="1_wd02n"]
+[ext_resource type="Script" uid="uid://cngikudwphq3e" path="res://utils/player_dungeon_location.gd" id="3_4pecq"]
+[ext_resource type="Script" uid="uid://cqu7bt50llhbc" path="res://CamOrbitCenter.gd" id="4_huxu7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qyqmu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -17,6 +18,9 @@ sky = SubResource("Sky_dscqc")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="LabelSettings" id="LabelSettings_4pecq"]
+font_size = 30
+
 [sub_resource type="GDScript" id="GDScript_fku1n"]
 script/source = "@tool
 extends Panel
@@ -28,23 +32,29 @@ func _process(_delta):
 
 [sub_resource type="Theme" id="Theme_am664"]
 
-[node name="DemoScene" type="Node3D"]
+[node name="DemoScene" type="Node3D" unique_id=240911428]
 script = ExtResource("1_7ldx6")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1033635584]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1471488734]
 environment = SubResource("Environment_4mo8u")
 
-[node name="DungeonGenerator3D" type="Node3D" parent="."]
+[node name="DungeonGenerator3D" type="Node3D" parent="." unique_id=2087512205]
 unique_name_in_owner = true
 script = ExtResource("1_wd02n")
 generate_on_ready = false
 heuristic_scale = 3.0
 
-[node name="GUI" type="Control" parent="."]
+[node name="PlayerDungonLocation" type="Label" parent="." unique_id=1365452855]
+offset_right = 147.0
+offset_bottom = 87.0
+label_settings = SubResource("LabelSettings_4pecq")
+script = ExtResource("3_4pecq")
+
+[node name="GUI" type="Control" parent="." unique_id=1438892470]
 unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
@@ -54,15 +64,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="BGPanel" type="Panel" parent="GUI"]
+[node name="BGPanel" type="Panel" parent="GUI" unique_id=181922500]
 layout_mode = 0
-offset_left = 860.0
+offset_left = 851.0
 offset_top = 15.0
 offset_right = 1137.0
 offset_bottom = 443.0
 script = SubResource("GDScript_fku1n")
 
-[node name="MarginContainer" type="MarginContainer" parent="GUI"]
+[node name="MarginContainer" type="MarginContainer" parent="GUI" unique_id=2063167968]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -78,97 +88,97 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="GUI/MarginContainer" unique_id=912096522]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="GUI/MarginContainer/VBoxContainer" unique_id=413175874]
 layout_mode = 2
 text = "Dungeon Kit"
 
-[node name="OptionButtonDungeons" type="OptionButton" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="OptionButtonDungeons" type="OptionButton" parent="GUI/MarginContainer/VBoxContainer" unique_id=770018611]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 
-[node name="Label5" type="Label" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="Label5" type="Label" parent="GUI/MarginContainer/VBoxContainer" unique_id=706012073]
 layout_mode = 2
 text = "Dungeon Size"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="GUI/MarginContainer/VBoxContainer" unique_id=1464933829]
 layout_mode = 2
 
-[node name="X" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="X" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2060370160]
 unique_name_in_owner = true
 layout_mode = 2
 value = 10.0
 
-[node name="Y" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Y" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1569848996]
 unique_name_in_owner = true
 layout_mode = 2
 value = 10.0
 
-[node name="Z" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Z" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2091977272]
 unique_name_in_owner = true
 layout_mode = 2
 value = 10.0
 
-[node name="Label3" type="Label" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="Label3" type="Label" parent="GUI/MarginContainer/VBoxContainer" unique_id=1118113616]
 layout_mode = 2
 text = "Generation Seed"
 
-[node name="Seed" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="Seed" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer" unique_id=881872664]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 9.22337e+18
 value = 10.0
 
-[node name="Label4" type="Label" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="Label4" type="Label" parent="GUI/MarginContainer/VBoxContainer" unique_id=101308590]
 layout_mode = 2
 text = "Visualization Delay Per Iteration"
 
-[node name="WaitMsRange" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="WaitMsRange" type="SpinBox" parent="GUI/MarginContainer/VBoxContainer" unique_id=847561021]
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 10000.0
 value = 100.0
 suffix = "ms"
 
-[node name="AutoRotateCheckBox" type="CheckBox" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="AutoRotateCheckBox" type="CheckBox" parent="GUI/MarginContainer/VBoxContainer" unique_id=999501728]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Auto rotate"
 
-[node name="ShowDebugCheckBox" type="CheckBox" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="ShowDebugCheckBox" type="CheckBox" parent="GUI/MarginContainer/VBoxContainer" unique_id=1102069358]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Show debug grid"
 
-[node name="RegenerateButton" type="Button" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="RegenerateButton" type="Button" parent="GUI/MarginContainer/VBoxContainer" unique_id=1627026586]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Generate"
 
-[node name="GenerateWithNewSeedButton" type="Button" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="GenerateWithNewSeedButton" type="Button" parent="GUI/MarginContainer/VBoxContainer" unique_id=400182890]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Generate With New Seed"
 
-[node name="SpawnPlayerButton" type="Button" parent="GUI/MarginContainer/VBoxContainer"]
+[node name="SpawnPlayerButton" type="Button" parent="GUI/MarginContainer/VBoxContainer" unique_id=2029691524]
 unique_name_in_owner = true
 layout_mode = 2
 focus_mode = 0
 text = "Spawn Player"
 
-[node name="CamOrbitCenter" type="Node3D" parent="."]
+[node name="CamOrbitCenter" type="Node3D" parent="." unique_id=1580986775]
 unique_name_in_owner = true
 script = ExtResource("4_huxu7")
 auto_rotate = true
 
-[node name="Camera3D" type="Camera3D" parent="CamOrbitCenter"]
+[node name="Camera3D" type="Camera3D" parent="CamOrbitCenter" unique_id=1537463178]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 152)
 
