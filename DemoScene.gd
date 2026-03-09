@@ -177,3 +177,5 @@ func _on_spawn_player_button_pressed():
 	spawn_points.pick_random().add_child(player)
 	for cam in player.find_children("*", "Camera3D"):
 		cam.current = true
+	$PlayerDungonLocation.set_player(player)
+	
