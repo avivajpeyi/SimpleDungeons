@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://by75ktrhb12eq"]
+
+[ext_resource type="Script" uid="uid://pwbil65dvoej" path="res://navigation_demo/navigation_demo.gd" id="1_w1n1b"]
+[ext_resource type="Script" uid="uid://dfvs6fffklc1d" path="res://addons/SimpleDungeons/DungeonGenerator3D.gd" id="1_wd02n"]
+[ext_resource type="PackedScene" uid="uid://c74pq22tm4lts" path="res://addons/SimpleDungeons/sample_dungeons/with_dev_textures_rooms/bridge_room.tscn" id="3_umvx1"]
+[ext_resource type="PackedScene" uid="uid://b8bnbf7bch1s0" path="res://addons/SimpleDungeons/sample_dungeons/with_dev_textures_rooms/living_room.tscn" id="4_b3sdd"]
+[ext_resource type="Script" uid="uid://cqu7bt50llhbc" path="res://CamOrbitCenter.gd" id="4_huxu7"]
+[ext_resource type="PackedScene" uid="uid://dxmljn5pbp0b1" path="res://addons/SimpleDungeons/sample_dungeons/with_dev_textures_rooms/stair.tscn" id="5_fl77q"]
+[ext_resource type="PackedScene" uid="uid://qwifmvjveoe3" path="res://navigation_demo/extra_rooms/end_room.tscn" id="6_b3sdd"]
+[ext_resource type="PackedScene" uid="uid://c30fpfkorbyl6" path="res://addons/SimpleDungeons/sample_dungeons/with_dev_textures_rooms/corridor.tscn" id="6_w1n1b"]
+[ext_resource type="PackedScene" uid="uid://jeqqr3ovq6w" path="res://navigation_demo/extra_rooms/start_room.tscn" id="7_fl77q"]
+[ext_resource type="Script" uid="uid://b0jg5df82d8a3" path="res://utils/navi_util.gd" id="9_fl77q"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qyqmu"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_dscqc"]
+sky_material = SubResource("ProceduralSkyMaterial_qyqmu")
+
+[sub_resource type="Environment" id="Environment_4mo8u"]
+background_mode = 2
+sky = SubResource("Sky_dscqc")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="NavigationDemo" type="Node3D" unique_id=1493065929]
+script = ExtResource("1_w1n1b")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2038055246]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1523839232]
+environment = SubResource("Environment_4mo8u")
+
+[node name="DungeonGenerator3D" type="Node3D" parent="." unique_id=693491330]
+unique_name_in_owner = true
+script = ExtResource("1_wd02n")
+room_scenes = Array[PackedScene]([ExtResource("3_umvx1"), ExtResource("4_b3sdd"), ExtResource("5_fl77q")])
+corridor_room_scene = ExtResource("6_w1n1b")
+generate_on_ready = false
+heuristic_scale = 3.0
+
+[node name="EndRoom" parent="DungeonGenerator3D" unique_id=1702484105 instance=ExtResource("6_b3sdd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -45, -45)
+
+[node name="StartRoom" parent="DungeonGenerator3D" unique_id=52490120 instance=ExtResource("7_fl77q")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 35, 45, 35)
+
+[node name="CamOrbitCenter" type="Node3D" parent="." unique_id=130174863]
+unique_name_in_owner = true
+script = ExtResource("4_huxu7")
+auto_rotate = true
+
+[node name="Camera3D" type="Camera3D" parent="CamOrbitCenter" unique_id=106460421]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 152)
+
+[node name="NavigationUtil" type="Node3D" parent="." unique_id=1080603083 node_paths=PackedStringArray("dungeon_generator", "start_room", "end_room")]
+script = ExtResource("9_fl77q")
+dungeon_generator = NodePath("../DungeonGenerator3D")
+start_room = NodePath("../DungeonGenerator3D/StartRoom")
+end_room = NodePath("../DungeonGenerator3D/EndRoom")
