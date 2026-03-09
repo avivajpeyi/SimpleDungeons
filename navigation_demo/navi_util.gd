@@ -147,12 +147,23 @@ func print_path(path: Array[DungeonRoom3D]):
 
 
 func test_pathfinding():
-	if _all_rooms.size() < 2 or not start_room or not end_room:
+	if _all_rooms.size() < 2:
 		return
-	print("Path: %s -> %s" % [start_room.name, end_room.name])
-	var path = find_path_bfs(start_room, end_room)
+	var from := start_room if start_room else _all_rooms[0] as DungeonRoom3D
+	var to   := end_room   if end_room   else _all_rooms[-1] as DungeonRoom3D
+	print("Path: %s -> %s" % [from.name, to.name])
+	var path = find_path_bfs(from, to)
 	print_path(path)
 	render_path(path)
+
+
+func set_path_depth_test(enabled: bool):
+	if _path_mesh_instance:
+		for child in _path_mesh_instance.get_children():
+			if child is MeshInstance3D:
+				var mat = child.material_override as StandardMaterial3D
+				if mat:
+					mat.no_depth_test = enabled
 
 
 func render_path(path: Array[DungeonRoom3D]):
@@ -173,8 +184,8 @@ func render_path(path: Array[DungeonRoom3D]):
 	_path_mesh_instance = container
 
 	for i in range(path.size() - 1):
-		var from := path[i].global_position     + Vector3.UP * 2.0
-		var to   := path[i + 1].global_position + Vector3.UP * 2.0
+		var from := path[i].global_position     + Vector3.UP * 0.05
+		var to   := path[i + 1].global_position + Vector3.UP * 0.05
 
 		var cyl := CylinderMesh.new()
 		cyl.top_radius    = path_tube_radius

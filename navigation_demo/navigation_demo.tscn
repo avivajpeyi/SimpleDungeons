@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://qwifmvjveoe3" path="res://navigation_demo/extra_rooms/end_room.tscn" id="6_b3sdd"]
 [ext_resource type="PackedScene" uid="uid://c30fpfkorbyl6" path="res://addons/SimpleDungeons/sample_dungeons/with_dev_textures_rooms/corridor.tscn" id="6_w1n1b"]
 [ext_resource type="PackedScene" uid="uid://jeqqr3ovq6w" path="res://navigation_demo/extra_rooms/start_room.tscn" id="7_fl77q"]
-[ext_resource type="Script" uid="uid://b0jg5df82d8a3" path="res://utils/navi_util.gd" id="9_fl77q"]
+[ext_resource type="Script" uid="uid://b0jg5df82d8a3" path="res://navigation_demo/navi_util.gd" id="9_fl77q"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qyqmu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -62,3 +62,17 @@ script = ExtResource("9_fl77q")
 dungeon_generator = NodePath("../DungeonGenerator3D")
 start_room = NodePath("../DungeonGenerator3D/StartRoom")
 end_room = NodePath("../DungeonGenerator3D/EndRoom")
+
+[node name="GUI" type="Control" parent="." unique_id=1610691562]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 164.0
+offset_bottom = 95.0
+
+[node name="PlayerButton" type="Button" parent="GUI" unique_id=1022732669]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 35.0
+offset_bottom = 12.0
+text = "Spawn Player"
