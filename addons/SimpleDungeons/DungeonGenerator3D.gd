@@ -296,11 +296,17 @@ func _finalize_rooms(ready_callback = null) -> void:
 	if not rooms_container.is_inside_tree():
 		add_child(rooms_container)
 	rooms_container.owner = self.owner
+	var virtual_to_real: Dictionary = {}
 	for room in _rooms_placed.slice(0):
 		_rooms_placed.erase(room)
 		var unvirtualized = room.unvirtualize_and_free_clone_if_needed(rooms_container)
 		unvirtualized.owner = self.owner
 		_rooms_placed.push_back(unvirtualized)
+		virtual_to_real[room] = unvirtualized
+	for pos in _quick_room_check_dict:
+		_quick_room_check_dict[pos] = virtual_to_real.get(_quick_room_check_dict[pos], _quick_room_check_dict[pos])
+	for pos in _quick_corridors_check_dict:
+		_quick_corridors_check_dict[pos] = virtual_to_real.get(_quick_corridors_check_dict[pos], _quick_corridors_check_dict[pos])
 	for room in room_instances:
 		if room and is_instance_valid(room):
 			room.queue_free()

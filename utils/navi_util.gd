@@ -9,7 +9,6 @@ var room_neighbors: Dictionary = {}
 var rooms_by_floor: Dictionary = {}
 
 var _all_rooms: Array = []
-var _room_by_name: Dictionary = {}
 var _path_mesh_instance: Node3D = null
 
 
@@ -26,14 +25,10 @@ func _on_dungeon_generated():
 func build_neighbor_graph():
 	room_neighbors.clear()
 	rooms_by_floor.clear()
-	_room_by_name.clear()
 
-	# Use find_children so we get real scene nodes — get_all_placed_and_preplaced_rooms()
-	# can return stale virtual instances after finalization
-	_all_rooms = dungeon_generator.find_children("*", "DungeonRoom3D", true)
+	_all_rooms = dungeon_generator.get_all_placed_and_preplaced_rooms()
 
 	for room in _all_rooms:
-		_room_by_name[room.name] = room
 		room_neighbors[room] = []
 		var floor_y = room.get_grid_pos().y
 		if not rooms_by_floor.has(floor_y):
@@ -43,19 +38,10 @@ func build_neighbor_graph():
 	for room in _all_rooms:
 		for door in room.get_doors():
 			var connected = door.get_room_leads_to()
-			if connected == null:
-				continue
-			var canonical: DungeonRoom3D = _room_by_name.get(connected.name)
-			if canonical and canonical not in room_neighbors[room]:
-				room_neighbors[room].append(canonical)
+			if connected and connected not in room_neighbors[room]:
+				room_neighbors[room].append(connected)
 
 	print("Nav graph: %d rooms, %d floors" % [_all_rooms.size(), rooms_by_floor.size()])
-
-
-func _canonical(room: DungeonRoom3D) -> DungeonRoom3D:
-	if room == null:
-		return null
-	return _room_by_name.get(room.name, room)
 
 
 func print_graph_ascii():
@@ -76,8 +62,8 @@ func find_path_bfs(start: DungeonRoom3D = null, end: DungeonRoom3D = null) -> Ar
 	if _all_rooms.is_empty():
 		return []
 
-	var from := _canonical(start) if start else _all_rooms[0] as DungeonRoom3D
-	var to   := _canonical(end)   if end   else _all_rooms[-1] as DungeonRoom3D
+	var from := start if start else _all_rooms[0] as DungeonRoom3D
+	var to   := end   if end   else _all_rooms[-1] as DungeonRoom3D
 
 	if from == to:
 		return [from]
@@ -105,8 +91,8 @@ func find_path_bfs(start: DungeonRoom3D = null, end: DungeonRoom3D = null) -> Ar
 
 
 func find_path_from_voxels(start_voxel: Vector3, end_voxel: Vector3) -> Array[DungeonRoom3D]:
-	var from := _canonical(dungeon_generator.get_room_at_pos(Vector3i((start_voxel / dungeon_generator.voxel_scale).floor())))
-	var to   := _canonical(dungeon_generator.get_room_at_pos(Vector3i((end_voxel   / dungeon_generator.voxel_scale).floor())))
+	var from := dungeon_generator.get_room_at_pos(Vector3i((start_voxel / dungeon_generator.voxel_scale).floor()))
+	var to   := dungeon_generator.get_room_at_pos(Vector3i((end_voxel   / dungeon_generator.voxel_scale).floor()))
 
 	if from == null or to == null:
 		push_warning("Voxel position not inside any room")
